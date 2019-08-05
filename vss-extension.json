@@ -1,0 +1,69 @@
+{
+  "manifestVersion": 1,
+  "id": "task-publisher",
+  "name": "Task Publisher",
+  "version": "1.0.0",
+  "publisher": "dmitryserbin",
+  "public": true,
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "description": "Publish custom Azure DevOps pipeline task using managed service endpoint",
+  "categories": [
+    "Azure Pipelines"
+  ],
+  "tags": [
+    "Publish",
+    "Extension",
+    "Task"
+  ],
+  "icons": {
+    "default": "Images/icon.png"
+  },
+  "content": {
+    "details": {
+      "path": "README.md"
+    },
+    "changelog": {
+      "path": "CHANGELOG.md"
+    },
+    "license": {
+      "path": "LICENSE.md"
+    }
+  },
+  "links": {
+    "getstarted": {
+      "uri": "https://github.com/dmitryserbin/azdev-task-publisher"
+    },
+    "support": {
+      "uri": "https://github.com/dmitryserbin/azdev-task-publisher/issues"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/dmitryserbin/azdev-task-publisher"
+  },
+  "files": [
+    {
+      "path": "PublisherV1"
+    },
+    {
+      "path": "Images",
+      "addressable": true
+    }
+  ],
+  "contributions": [
+    {
+      "id": "task-publisher",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "PublisherV1"
+      }
+    }
+  ]
+}

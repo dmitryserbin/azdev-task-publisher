@@ -1,0 +1,18 @@
+trigger: none
+
+queue:
+  name: Hosted VS2017
+
+steps:
+- task: PowerShell@2
+  displayName: 'Run Tests'
+  inputs:
+    filePath: 'Validate.ps1'
+    arguments: '-Path PublisherV1/Tests'
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results'
+  inputs:
+    testResultsFormat: NUnit
+    testResultsFiles: '**/TestResults.xml'
+  condition: succeededOrFailed()
