@@ -31,7 +31,12 @@ This is a [PowerShell](https://github.com/powershell/powershell) based extension
 
 ## How To Use
 
-The extension uses **user-defined** personal access token (PAT) Azure DevOps service endpoint to work.
+The extension requires Azure DevOps service endpoint with specific access to target account to be able to work. There are two types of Azure DevOps service endoints supported:
+
+Type | Name | Account
+---- | ---- | -------
+integrated | SystemVssConnection | Project Collection Build Service
+specific | User specified | User specified
 
 > You may need to create a new Azure Pipelines [service connection](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints) using [PAT](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate) token with `Agent Pools: read & manage` scope access.
 
