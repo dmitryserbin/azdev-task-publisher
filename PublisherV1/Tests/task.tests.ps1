@@ -10,13 +10,14 @@ Import-Module `
 
 Describe "Task" {
 
+    $EndpointType = "service"
     $ServiceName = "ConnectedService"
     $EndpointName = "MyEndpoint"
     $ServiceEndpoint = @{
+        Url = "http://dev.azure.com/MyAccount"
         Auth = @{
-            parameters = @{
-                username = "MyUser"
-                password = "MyPassword"
+            Parameters = @{
+                ApiToken = "MyPassword"
             }
         }
     }
@@ -31,6 +32,11 @@ Describe "Task" {
 
         it "Runs with parameters" {
 
+            Mock Get-VstsInput `
+                -ParameterFilter { $Name -eq "EndpointType" } `
+                -MockWith { $EndpointType } `
+                -Verifiable
+                
             Mock Get-VstsInput `
                 -ParameterFilter { $Name -eq $ServiceName } `
                 -MockWith { $EndpointName } `
@@ -80,6 +86,10 @@ Describe "Task" {
                 -Verifiable
 
             { & $ScriptPath } | Should -Not -Throw
+
+            Assert-MockCalled Get-VstsInput `
+                -ParameterFilter { $Name -eq "EndpointType" } `
+                -Times 1
 
             Assert-MockCalled Get-VstsInput `
                 -ParameterFilter { $Name -eq $ServiceName } `
