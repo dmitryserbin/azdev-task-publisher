@@ -29,10 +29,23 @@
   ],
   "inputs": [
     {
+      "name": "EndpointType",
+      "type": "radio",
+      "label": "Azure DevOps endpoint type",
+      "helpMarkDown": "Select endpoint type to connect Azure DevOps: \nService = user-defined personal access token (PAT) service endpoint \n\nNote: requires 'Extensions' and 'Agent Pools' read & manage permissions; \nIntegrated = default 'SystemVssConnection' service endpoint for 'Project Collection Build Service' user account.",
+      "required": true,
+      "defaultValue": "service",
+      "options": {
+        "service": "Service Endpoint",
+        "integrated": "Integrated Endpoint"
+      }
+    },
+    {
       "name": "ConnectedService",
-      "type": "connectedService:Generic",
-      "label": "Azure DevOps endpoint",
+      "type": "connectedService:ExternalTfs",
+      "label": "Service endpoint",
       "helpMarkDown": "Select service endpoint for Azure DevOps account",
+      "visibleRule": "EndpointType = service",
       "required": true
     },
     {

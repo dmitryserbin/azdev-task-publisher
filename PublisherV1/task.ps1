@@ -6,24 +6,38 @@ Param
 
 try
 {
-	$PublishPath = Join-Path -Path $PSScriptRoot -ChildPath Publish.ps1
-	$ConnectedService = Get-VstsInput -Name ConnectedService -Require
+	$EndpointType = Get-VstsInput -Name EndpointType -Require
+
+	switch ($EndpointType)
+	{
+		integrated
+		{
+			$ConnectedService = "SYSTEMVSSCONNECTION"
+			$TokenParameterName = "AccessToken"
+		}
+		service
+		{
+			$ConnectedService = Get-VstsInput -Name ConnectedService -Require
+			$TokenParameterName = "ApiToken"
+		}
+	}
+
 	$ServiceEndpoint = Get-VstsEndpoint -Name $ConnectedService
+	$PublishPath = Join-Path -Path $PSScriptRoot -ChildPath Publish.ps1
 	$TaskPath = Get-VstsInput -Name TaskPath -Require
 	$ArtifactsPath = Get-VstsInput -Name ArtifactsPath -Require
-	
 	$Patch = Get-VstsInput -Name Patch -AsBool
 	$Preview = Get-VstsInput -Name Preview -AsBool
 	$Replace = Get-VstsInput -Name Replace -AsBool
 
-	if (-not $ServiceEndpoint.Auth.parameters.username)
+	if (-not $ServiceEndpoint.Url)
 	{
-		throw "Endpoint <$ConnectedService> missing username"
+		throw "Endpoint <$ConnectedService> missing connection URL"
 	}
 
-	if (-not $ServiceEndpoint.Auth.parameters.password)
+	if (-not $ServiceEndpoint.Auth.Parameters.$TokenParameterName)
 	{
-		throw "Endpoint <$ConnectedService> missing password"
+		throw "Endpoint <$ConnectedService> missing token"
 	}
 
 	if (-not (Test-Path -Path $TaskPath))
@@ -46,8 +60,8 @@ try
 
 	$Parameters = @{
 		Path = $TaskPath
-		Account = $ServiceEndpoint.Auth.parameters.username
-		Token = $ServiceEndpoint.Auth.parameters.password
+		Account = ([URI]$ServiceEndpoint.Url).Segments[1]
+		Token = $ServiceEndpoint.Auth.Parameters.$TokenParameterName
 		Artifacts = $ArtifactsPath
 		Replace = $Replace
 		Preview = $Preview
