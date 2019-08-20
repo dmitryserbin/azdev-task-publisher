@@ -149,19 +149,12 @@ try
     Save-ModuleVersion `
         -Name VstsTaskSdk `
         -Version 0.11.0 `
-        -Path (Join-Path -Path $Output -ChildPath Modules)
+        -Path (Join-Path -Path $Path -ChildPath PublisherV1\ps_modules)
 
     Publish-Extension `
         -Path $Path `
         -Output (Join-Path -Path $Output -ChildPath Extension) `
         -Exclude @(".git*", "*.yaml", "*test*", "Validate.ps1", "Package.ps1")
-
-    Copy-Item `
-        -Path (Join-Path -Path $Output -ChildPath Modules\VstsTaskSdk) `
-        -Destination (Join-Path -Path $Output -ChildPath Extension\PublisherV1\ps_modules) `
-        -Container `
-        -Force `
-        -ErrorAction Stop
 }
 catch
 {
