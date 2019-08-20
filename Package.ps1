@@ -149,7 +149,7 @@ try
     Save-ModuleVersion `
         -Name VstsTaskSdk `
         -Version 0.11.0 `
-        -Path (Join-Path -Path $Output -ChildPath Modules)
+        -Path (Join-Path -Path $Path -ChildPath PublisherV1\ps_modules)
 
     Publish-Extension `
         -Path $Path `

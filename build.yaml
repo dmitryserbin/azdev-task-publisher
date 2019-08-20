@@ -29,7 +29,7 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Modules'
   inputs:
-    PathtoPublish: '$(Build.StagingDirectory)/Modules'
+    PathtoPublish: '$(Build.StagingDirectory)/Extension/PublisherV1/ps_modules'
     ArtifactName: Modules
 
 - task: PublishBuildArtifacts@1
