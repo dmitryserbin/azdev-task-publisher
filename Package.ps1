@@ -151,6 +151,13 @@ try
         -Version 0.11.0 `
         -Path (Join-Path -Path $Output -ChildPath Modules)
 
+    Copy-Item `
+        -Path (Join-Path -Path $Output -ChildPath Modules\VstsTaskSdk) `
+        -Destination (Join-Path -Path $Output -ChildPath Extension\PublisherV1\ps_modules) `
+        -Container `
+        -Force `
+        -ErrorAction Stop
+
     Publish-Extension `
         -Path $Path `
         -Output (Join-Path -Path $Output -ChildPath Extension) `
