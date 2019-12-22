@@ -402,24 +402,12 @@ function Update-TaskDependencies
 				{
 					$True
 					{
-						$ExcludeFilter = @(
-							"*.pssproj",
-							"*.git*",
-							"*.exe",
-							"bin",
-							"obj",
-							"Debug",
-							"Release")
-
-						ForEach ($File in Get-ChildItem -Path $ModulePath -Exclude $ExcludeFilter)
-						{
-							Copy-Item `
-								-Path $File.FullName `
-								-Destination (Join-Path -Path $TaskModules -ChildPath $Module) `
-								-Force `
-								-Recurse `
-								-ErrorAction Stop
-						}
+						Copy-Item `
+							-Path $ModulePath `
+							-Destination $TaskModules `
+							-Recurse `
+							-Force `
+							-ErrorAction Stop
 					}
 					$False
 					{
