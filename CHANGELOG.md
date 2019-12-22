@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3
+
+- Address dependencies update issue
+
 ## 1.0.2
 
 - Address module not found issue
