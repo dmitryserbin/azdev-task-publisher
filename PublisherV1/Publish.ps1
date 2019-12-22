@@ -52,7 +52,7 @@ function Connect-AzDevAccount
 
 	try
 	{
-		Write-Host "Connecting to <$($Account.toUpper())> Azure DevOps account"
+		Write-Output "Connecting to <$($Account.toUpper())> Azure DevOps account"
 
 		# Validate NPM
 		if (-not (Get-Command -Name npm -ErrorAction SilentlyContinue))
@@ -160,7 +160,7 @@ function Publish-AzDevTask
 				-Id $Task.Id
 		}
 
-		Write-Host "Publishing <$($Task.Name)> ($($Task.Id)) version <$($Task.Version)> task"
+		Write-Output "Publishing <$($Task.Name)> ($($Task.Id)) version <$($Task.Version)> task"
 
 		$Output = tfx build tasks upload --task-path $Task.Path
 
@@ -197,12 +197,12 @@ function Remove-AzDevTask
 
 		if (-not $TargetTask)
 		{
-			Write-Host "Task <$Name> ID <$Id> not found"
+			Write-Output "Task <$Name> ID <$Id> not found"
 
 			return
 		}
 
-		Write-Host "Removing <$($TargetTask.Name)> ($($TargetTask.Id)) version <$($TargetTask.Version)> task"
+		Write-Output "Removing <$($TargetTask.Name)> ($($TargetTask.Id)) version <$($TargetTask.Version)> task"
 
 		$Output = tfx build tasks delete --task-id $TargetTask.Id
 
@@ -363,7 +363,7 @@ function Update-TaskDependencies
 
 	try
 	{
-		Write-Host "Updating <$Path> task dependencies"
+		Write-Output "Updating <$Path> task dependencies"
 
 		$ModulesPath = Join-Path -Path $ArtifactsDirectory -ChildPath Modules
 		$ResourcesPath = Join-Path -Path $ArtifactsDirectory -ChildPath Resources
