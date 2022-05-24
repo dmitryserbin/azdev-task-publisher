@@ -29,8 +29,11 @@
     "changelog": {
       "path": "CHANGELOG.md"
     },
+    "privacy": {
+      "path": "PRIVACY.md"
+    },
     "license": {
-      "path": "LICENSE.md"
+      "path": "LICENSE"
     }
   },
   "links": {
@@ -39,6 +42,12 @@
     },
     "support": {
       "uri": "https://github.com/dmitryserbin/azdev-task-publisher/issues"
+    },
+    "license": {
+      "uri": "https://github.com/dmitryserbin/azdev-task-publisher/blob/master/LICENSE"
+    },
+    "privacypolicy": {
+      "uri": "https://github.com/dmitryserbin/azdev-task-publisher/blob/master/PRIVACY.md"
     }
   },
   "repository": {
