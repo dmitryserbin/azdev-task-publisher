@@ -8,10 +8,7 @@ Param
 	[String]$TaskSdkVersion = "0.11.0",
 
 	[Parameter(Mandatory=$False)]
-	[String]$AnalyzerVersion = "1.18.0",
-
-	[Parameter(Mandatory=$False)]
-	[String]$PesterVersion = "4.8.0"
+	[String]$PesterVersion = "5.3.3"
 )
 
 $TaskSdkInstalled = Get-InstalledModule `
@@ -48,11 +45,19 @@ if (-not $PesterInstalled)
 		-WarningAction SilentlyContinue
 }
 
-$Results = Invoke-Pester `
-	-Script $Path `
-	-OutputFormat NUnitXml `
-	-OutputFile TestResults.xml `
-	-PassThru
+$Configuration = New-PesterConfiguration
+$Configuration.Run.Path = $Path
+$Configuration.Run.Exit = $True
+$Configuration.TestResult.Enabled = $True
+$Configuration.TestResult.OutputPath = "TestResults.xml"
+$Configuration.TestDrive.Enabled = $False
+$Configuration.TestRegistry.Enabled = $False
+$Configuration.Output.Verbosity = "Detailed"
+$Configuration.Output.StackTraceVerbosity = "Full"
+$Configuration.Output.CIFormat = "AzureDevops"
+$Configuration.Should.ErrorAction = "Stop"
+
+$Results = Invoke-Pester -Configuration $Configuration
 
 if ($Results.FailedCount -gt 0)
 {

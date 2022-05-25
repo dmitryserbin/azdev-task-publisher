@@ -5,14 +5,14 @@ queue:
 
 steps:
 - task: PowerShell@2
-  displayName: 'Run Tests'
+  displayName: Run Tests
   inputs:
-    filePath: 'Validate.ps1'
-    arguments: '-Path PublisherV1/Tests'
+    filePath: Scripts/Validate.ps1
+    arguments: -Path PublisherV1/Tests
 
 - task: PublishTestResults@2
-  displayName: 'Publish Test Results'
+  displayName: Publish Test Results
   inputs:
     testResultsFormat: NUnit
-    testResultsFiles: '**/TestResults.xml'
+    testResultsFiles: "**/TestResults.xml"
   condition: succeededOrFailed()
