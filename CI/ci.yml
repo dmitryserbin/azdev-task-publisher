@@ -1,18 +1,20 @@
 trigger: none
 
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - CI/*
+    - Tasks/*
+  autoCancel: true
+
 pool:
-  vmImage: windows-latest
+  name: Default
 
-steps:
-- task: PowerShell@2
-  displayName: Run Tests
-  inputs:
-    filePath: CI/Scripts/Validate.ps1
-    arguments: -Path PublisherV1/Tests
-
-- task: PublishTestResults@2
-  displayName: Publish Test Results
-  inputs:
-    testResultsFormat: NUnit
-    testResultsFiles: "**/TestResults.xml"
-  condition: succeededOrFailed()
+jobs:
+- template: templates/build.yml
+  parameters:
+    task: true
+    extension: true

@@ -1,0 +1,10 @@
+variables:
+  taskName: PublisherV1
+  tasksPath: Tasks
+  artifactsPath: $(Build.ArtifactStagingDirectory)
+  extensionArtifactPath: $(Pipeline.Workspace)/Extension/*.vsix
+  extensionPreviewVisibility: privatepreview
+  extensionPreviewShareWith: dmitryserbin,iag
+  extensionVisibility: public
+  extensionVersion: $(Build.BuildId)
+  marketplaceEndpoint: dmitryserbin.marketplace

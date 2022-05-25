@@ -1,0 +1,34 @@
+parameters:
+  name: ""
+  restore: ""
+  build: false
+  test: false
+  publish: false
+  testResults: "**/results.xml"
+
+steps:
+- ${{ if eq(parameters.restore, true) }}:
+  - task: PowerShell@2
+    displayName: Restore packages
+    inputs:
+      filePath: CI/scripts/Invoke-Restore.ps1
+      arguments: -Path ${{ parameters.path }}/${{ parameters.name }}
+
+- ${{ if eq(parameters.test, true) }}:
+  - task: PowerShell@2
+    displayName: Run tests
+    inputs:
+      filePath: CI/scripts/Invoke-Tests.ps1
+      arguments: -Path ${{ parameters.path }}/${{ parameters.name }}/Tests
+
+- ${{ if eq(parameters.test, true) }}:
+  - task: PublishTestResults@2
+    displayName: Publish test results
+    inputs:
+      testResultsFiles: ${{ parameters.testResults }}
+    condition: always()
+
+- ${{ if eq(parameters.publish, true) }}:
+  - publish: ${{ parameters.path }}/${{ parameters.name }}
+    displayName: Publish artifact
+    artifact: ${{ parameters.name }}

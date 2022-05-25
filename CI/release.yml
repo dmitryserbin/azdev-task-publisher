@@ -1,39 +1,39 @@
 trigger:
-- master
+  batch: true
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - Tasks/*
 
 pr: none
 
 pool:
-  vmImage: windows-latest
+  name: Default
 
-steps:
-- task: PowerShell@2
-  displayName: Run Tests
-  inputs:
-    filePath: CI/Scripts/Validate.ps1
-    arguments: -Path PublisherV1/Tests
+stages:
+- stage: Build
+  jobs:
+  - template: templates/build.yml
+    parameters:
+      task: true
+      extension: true
 
-- task: PublishTestResults@2
-  displayName: Publish Test Results
-  inputs:
-    testResultsFormat: NUnit
-    testResultsFiles: "**/TestResults.xml"
-  condition: succeededOrFailed()
+- stage: Preview
+  dependsOn:
+  - Build
+  jobs:
+  - template: templates/preview.yml
+    parameters:
+      environmentName: Marketplace
 
-- task: PowerShell@2
-  displayName: Package Artifact
-  inputs:
-    filePath: Package.ps1
-    arguments: -Path $(Build.SourcesDirectory) -Output $(Build.StagingDirectory)
-
-- task: PublishBuildArtifacts@1
-  displayName: Publish Modules
-  inputs:
-    PathtoPublish: $(Build.StagingDirectory)/Extension/PublisherV1/ps_modules
-    ArtifactName: Modules
-
-- task: PublishBuildArtifacts@1
-  displayName: Publish Extension
-  inputs:
-    PathtoPublish: $(Build.StagingDirectory)/Extension
-    ArtifactName: Extension
+- stage: Release
+  dependsOn:
+  - Build
+  - Preview
+  jobs:
+  - template: templates/release.yml
+    parameters:
+      environmentName: Marketplace
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))

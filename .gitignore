@@ -1,1 +1,6 @@
-**/TestResults.xml
+**/.DS_Store
+**/.taskkey
+**/*.sh
+**/*.vsix
+**/*.log
+**/results.xml

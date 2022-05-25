@@ -1,0 +1,40 @@
+parameters:
+  task: false
+  extension: false
+
+jobs:
+- ${{ if eq(parameters.task, true) }}:
+  - job: Task
+    workspace:
+      clean: all
+    variables:
+    - template: variables.yml
+    steps:
+    - template: steps/build.yml
+      parameters:
+        name: ${{ variables.taskName }}
+        path: ${{ variables.tasksPath }}
+        restore: true
+        test: true
+        publish: true
+
+- ${{ if eq(parameters.extension, true) }}:
+  - job: Extension
+    workspace:
+      clean: all
+    variables:
+    - template: variables.yml
+    dependsOn:
+    - ${{ if eq(parameters.task, true) }}:
+      - Task
+    steps:
+    - template: steps/package.yml
+      parameters:
+        path: ${{ variables.artifactsPath }}
+        contents: |
+          Images/**
+          LICENSE
+          *.md
+          *.json
+        version: ${{ variables.extensionVersion }}
+        publish: true
