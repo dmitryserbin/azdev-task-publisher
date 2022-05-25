@@ -16,3 +16,9 @@ steps:
     testResultsFormat: NUnit
     testResultsFiles: "**/TestResults.xml"
   condition: succeededOrFailed()
+
+- task: PowerShell@2
+  displayName: Package Extension
+  inputs:
+    filePath: CI/Scripts/Package.ps1
+    arguments: -Path $(Build.SourcesDirectory) -Output $(Build.StagingDirectory)

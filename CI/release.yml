@@ -21,9 +21,9 @@ steps:
   condition: succeededOrFailed()
 
 - task: PowerShell@2
-  displayName: Package Artifact
+  displayName: Package Extension
   inputs:
-    filePath: Package.ps1
+    filePath: CI/Scripts/Package.ps1
     arguments: -Path $(Build.SourcesDirectory) -Output $(Build.StagingDirectory)
 
 - task: PublishBuildArtifacts@1
