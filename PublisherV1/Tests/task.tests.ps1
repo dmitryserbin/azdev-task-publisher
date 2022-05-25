@@ -1,7 +1,3 @@
-$TaskPath = Join-Path `
-    -Path PublisherV1 `
-    -ChildPath task.ps1
-
 Import-Module `
     -Name VstsTaskSdk `
     -Prefix Vsts `
@@ -11,6 +7,10 @@ Import-Module `
 Describe "Task" {
 
     BeforeEach {
+
+        $TaskPath = Join-Path `
+            -Path PublisherV1 `
+            -ChildPath task.ps1
 
         $EndpointType = "service"
         $ServiceName = "ConnectedService"
@@ -97,7 +97,7 @@ Describe "Task" {
             -CommandName Invoke-Command `
             -Verifiable
 
-        { & /Users/dmitryserbin/Development/github/azdev-task-publisher/PublisherV1/task.ps1 } | Should -Not -Throw
+        { & $TaskPath } | Should -Not -Throw
 
         Assert-MockCalled `
             -CommandName Get-VstsInput `
