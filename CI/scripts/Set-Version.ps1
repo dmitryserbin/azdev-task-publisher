@@ -213,7 +213,7 @@ function Confirm-ExtensionVersion
 	Write-Host ("Release extension version: {0}" -f $Release.version)
 	Write-Host ("Latest extension version: {0}" -f $Latest.version)
 
-	if ($Release.version -le $Latest.version)
+	if ([Version]$Release.version -le [Version]$Latest.version)
 	{
 		$ErrorMessage = "Extension version <$($Release.version)> cannot be released"
 
