@@ -1,7 +1,3 @@
-$ScriptPath = Join-Path `
-    -Path PublisherV1 `
-    -ChildPath task.ps1
-
 Import-Module `
     -Name VstsTaskSdk `
     -Prefix Vsts `
@@ -10,128 +6,151 @@ Import-Module `
 
 Describe "Task" {
 
-    $EndpointType = "service"
-    $ServiceName = "ConnectedService"
-    $EndpointName = "MyEndpoint"
-    $ServiceEndpoint = @{
-        Url = "http://dev.azure.com/MyAccount"
-        Auth = @{
-            Parameters = @{
-                ApiToken = "MyPassword"
+    BeforeEach {
+
+        $TaskScriptPath = Join-Path `
+            -Path PublisherV1 `
+            -ChildPath task.ps1
+
+        $EndpointType = "service"
+        $ServiceName = "ConnectedService"
+        $EndpointName = "MyEndpoint"
+        $ServiceEndpoint = @{
+            Url = "http://dev.azure.com/MyAccount"
+            Auth = @{
+                Parameters = @{
+                    ApiToken = "MyPassword"
+                }
             }
         }
+    
+        $TaskPath = "MyTaskPath"
+        $ArtifactsPath = "MyArtifactsPath"
+        $Patch = $False
+        $Preview = $False
+        $Replace = $False
+
     }
 
-    $TaskPath = "MyTaskPath"
-    $ArtifactsPath = "MyArtifactsPath"
-    $Patch = $False
-    $Preview = $False
-    $Replace = $False
+    it "Runs with parameters" {
 
-    Context "Run task" {
-
-        it "Runs with parameters" {
-
-            Mock Get-VstsInput `
-                -ParameterFilter { $Name -eq "EndpointType" } `
-                -MockWith { $EndpointType } `
-                -Verifiable
-                
-            Mock Get-VstsInput `
-                -ParameterFilter { $Name -eq $ServiceName } `
-                -MockWith { $EndpointName } `
-                -Verifiable
-
-            Mock Get-VstsEndpoint `
-                -ParameterFilter { $Name -eq $EndpointName } `
-                -MockWith { $ServiceEndpoint } `
-                -Verifiable
-
-            Mock Get-VstsInput `
-                -ParameterFilter { $Name -eq "TaskPath" } `
-                -MockWith { $TaskPath } `
-                -Verifiable
-
-            Mock Get-VstsInput `
-                -ParameterFilter { $Name -eq "ArtifactsPath" } `
-                -MockWith { $ArtifactsPath } `
-                -Verifiable
-
-            Mock Get-VstsInput `
-                -ParameterFilter { $Name -eq "Patch" } `
-                -MockWith { $Patch } `
-                -Verifiable
-
-            Mock Get-VstsInput `
-                -ParameterFilter { $Name -eq "Preview" } `
-                -MockWith { $Preview } `
-                -Verifiable
-
-            Mock Get-VstsInput `
-                -ParameterFilter { $Name -eq "Replace" } `
-                -MockWith { $Replace } `
-                -Verifiable
-
-            Mock Test-Path `
-                -ParameterFilter { $Path -eq $TaskPath } `
-                -MockWith { $True } `
-                -Verifiable
-
-            Mock Get-Command `
-                -ParameterFilter { $Name -eq "tfx" } `
-                -MockWith { $True } `
-                -Verifiable
-
-            Mock Invoke-Command `
-                -Verifiable
-
-            { & $ScriptPath } | Should -Not -Throw
-
-            Assert-MockCalled Get-VstsInput `
-                -ParameterFilter { $Name -eq "EndpointType" } `
-                -Times 1
-
-            Assert-MockCalled Get-VstsInput `
-                -ParameterFilter { $Name -eq $ServiceName } `
-                -Times 1
-
-            Assert-MockCalled Get-VstsEndpoint `
-                -ParameterFilter { $Name -eq $EndpointName } `
-                -Times 1
-
-            Assert-MockCalled Get-VstsInput `
-                -ParameterFilter { $Name -eq "TaskPath" } `
-                -Times 1
-
-            Assert-MockCalled Get-VstsInput `
-                -ParameterFilter { $Name -eq "ArtifactsPath" } `
-                -Times 1
-
-            Assert-MockCalled Get-VstsInput `
-                -ParameterFilter { $Name -eq "Patch" } `
-                -Times 1
-
-            Assert-MockCalled Get-VstsInput `
-                -ParameterFilter { $Name -eq "Preview" } `
-                -Times 1
-
-            Assert-MockCalled Get-VstsInput `
-                -ParameterFilter { $Name -eq "Replace" } `
-                -Times 1
+        Mock `
+            -CommandName Get-VstsInput `
+            -MockWith { $EndpointType } `
+            -Verifiable
             
-            Assert-MockCalled Test-Path `
-                -ParameterFilter { $Path -eq $TaskPath } `
-                -Times 1
+        Mock `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq $ServiceName } `
+            -MockWith { $EndpointName } `
+            -Verifiable
 
-            Assert-MockCalled Get-Command `
-                -ParameterFilter { $Name -eq "tfx" } `
-                -Times 1
+        Mock `
+            -CommandName Get-VstsEndpoint `
+            -ParameterFilter { $Name -eq $EndpointName } `
+            -MockWith { $ServiceEndpoint } `
+            -Verifiable
 
-            Assert-MockCalled Invoke-Command `
-                -Times 1
+        Mock `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "TaskPath" } `
+            -MockWith { $TaskPath } `
+            -Verifiable
 
-        }
+        Mock `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "ArtifactsPath" } `
+            -MockWith { $ArtifactsPath } `
+            -Verifiable
 
+        Mock `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "Patch" } `
+            -MockWith { $Patch } `
+            -Verifiable
+
+        Mock `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "Preview" } `
+            -MockWith { $Preview } `
+            -Verifiable
+
+        Mock `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "Replace" } `
+            -MockWith { $Replace } `
+            -Verifiable
+
+        Mock `
+            -CommandName Test-Path `
+            -ParameterFilter { $Path -eq $TaskPath } `
+            -MockWith { $True } `
+            -Verifiable
+
+        Mock `
+            -CommandName Get-Command `
+            -ParameterFilter { $Name -eq "tfx" } `
+            -MockWith { $True } `
+            -Verifiable
+
+        Mock `
+            -CommandName Invoke-Command `
+            -Verifiable
+
+        { & $TaskScriptPath } | Should -Not -Throw
+
+        Assert-MockCalled `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "EndpointType" } `
+            -Times 1
+
+        Assert-MockCalled `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq $ServiceName } `
+            -Times 1
+
+        Assert-MockCalled `
+            -CommandName Get-VstsEndpoint `
+            -ParameterFilter { $Name -eq $EndpointName } `
+            -Times 1
+
+        Assert-MockCalled `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "TaskPath" } `
+            -Times 1
+
+        Assert-MockCalled `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "ArtifactsPath" } `
+            -Times 1
+
+        Assert-MockCalled `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "Patch" } `
+            -Times 1
+
+        Assert-MockCalled `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "Preview" } `
+            -Times 1
+
+        Assert-MockCalled `
+            -CommandName Get-VstsInput `
+            -ParameterFilter { $Name -eq "Replace" } `
+            -Times 1
+        
+        Assert-MockCalled `
+            -CommandName Test-Path `
+            -ParameterFilter { $Path -eq $TaskPath } `
+            -Times 1
+
+        Assert-MockCalled `
+            -CommandName Get-Command `
+            -ParameterFilter { $Name -eq "tfx" } `
+            -Times 1
+
+        Assert-MockCalled `
+            -CommandName Invoke-Command `
+            -Times 1
     }
-
 }
