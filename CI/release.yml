@@ -10,7 +10,7 @@ steps:
 - task: PowerShell@2
   displayName: Run Tests
   inputs:
-    filePath: Scripts/Validate.ps1
+    filePath: CI/Scripts/Validate.ps1
     arguments: -Path PublisherV1/Tests
 
 - task: PublishTestResults@2
