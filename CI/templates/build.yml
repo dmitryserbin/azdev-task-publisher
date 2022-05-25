@@ -5,8 +5,6 @@ parameters:
 jobs:
 - ${{ if eq(parameters.task, true) }}:
   - job: Task
-    pool:
-      name: Default
     workspace:
       clean: all
     variables:
@@ -22,8 +20,6 @@ jobs:
 
 - ${{ if eq(parameters.extension, true) }}:
   - job: Extension
-    pool:
-      name: Default
     workspace:
       clean: all
     variables:

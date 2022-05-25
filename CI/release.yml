@@ -6,6 +6,9 @@ trigger:
     include:
     - Tasks/*
 
+pool:
+  name: Default
+
 stages:
 - stage: Build
   jobs:
