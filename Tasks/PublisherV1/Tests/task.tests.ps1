@@ -9,8 +9,8 @@ Describe "Task" {
     BeforeEach {
 
         $TaskScriptPath = Join-Path `
-            -Path PublisherV1 `
-            -ChildPath task.ps1
+            -Path $PSScriptRoot `
+            -ChildPath ../task.ps1
 
         $EndpointType = "service"
         $ServiceName = "ConnectedService"

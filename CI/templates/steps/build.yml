@@ -11,7 +11,7 @@ steps:
   - task: PowerShell@2
     displayName: Restore packages
     inputs:
-      filePath: CI/Scripts/Invoke-Restore.ps1
+      filePath: CI/scripts/Invoke-Restore.ps1
       arguments: -Path ${{ parameters.path }}/${{ parameters.name }}
 
 - ${{ if eq(parameters.test, true) }}:
