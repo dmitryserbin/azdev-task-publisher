@@ -56,7 +56,7 @@
   },
   "files": [
     {
-      "path": "PublisherV1"
+      "path": "Tasks"
     },
     {
       "path": "Images",
@@ -71,7 +71,7 @@
         "ms.vss-distributed-task.tasks"
       ],
       "properties": {
-        "name": "PublisherV1"
+        "name": "Tasks"
       }
     }
   ]
