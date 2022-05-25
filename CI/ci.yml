@@ -1,5 +1,11 @@
 trigger: none
 
+pr:
+  branches:
+    include:
+    - master
+  autoCancel: true
+
 pool:
   vmImage: windows-latest
 
