@@ -8,7 +8,7 @@ Describe "Task" {
 
     BeforeEach {
 
-        $TaskPath = Join-Path `
+        $TaskScriptPath = Join-Path `
             -Path PublisherV1 `
             -ChildPath task.ps1
 
@@ -97,7 +97,7 @@ Describe "Task" {
             -CommandName Invoke-Command `
             -Verifiable
 
-        { & $TaskPath } | Should -Not -Throw
+        { & $TaskScriptPath } | Should -Not -Throw
 
         Assert-MockCalled `
             -CommandName Get-VstsInput `
